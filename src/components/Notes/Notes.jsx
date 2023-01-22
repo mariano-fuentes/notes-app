@@ -2,24 +2,7 @@ import { useState } from 'react';
 import CreateNoteForm from './CreateNoteForm';
 import NoteList from './NoteList';
 import { Container } from '@mui/material';
-
-const NOTES = [
-  {
-    title: 'Walk dog',
-    description: 'Take out skipper, he needs a walk',
-    id: Math.random().toString(),
-  },
-  {
-    title: 'Study React',
-    description: 'Need to learn the ropes',
-    id: Math.random().toString(),
-  },
-  {
-    title: 'Buy groceries',
-    description: 'Even devs have to eat at some point',
-    id: Math.random().toString(),
-  },
-];
+import NOTES from '../../example/notes.js';
 
 const Notes = () => {
   const [notes, setNotes] = useState(NOTES);
@@ -30,10 +13,18 @@ const Notes = () => {
     });
   };
 
+  const deleteNoteHandler = (id) => {
+    const newNotes = notes.filter((note) => note.id !== id);
+    setNotes(newNotes);
+  };
+
   return (
     <Container>
       <CreateNoteForm saveNote={saveNoteHandler} />
-      <NoteList notes={notes} />
+      <NoteList
+        notes={notes}
+        deleteNote={deleteNoteHandler}
+      />
     </Container>
   );
 };

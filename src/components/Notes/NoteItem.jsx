@@ -8,7 +8,11 @@ import {
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-const NoteItem = ({ title, description, id }) => {
+const NoteItem = ({ title, description, id, deleteNote }) => {
+  const deleteNoteHandler = (id) => {
+    deleteNote(id);
+  };
+
   return (
     <Card>
       <CardHeader
@@ -16,6 +20,7 @@ const NoteItem = ({ title, description, id }) => {
           <IconButton
             aria-label='delete'
             color='error'
+            onClick={(e) => deleteNoteHandler(id)}
           >
             <DeleteForeverIcon />
           </IconButton>

@@ -1,30 +1,55 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import inputReducer from '../../reducers/inputReducer';
 
 const inputStyle = {
   marginBottom: '20px',
 };
 
+const initialObj = {
+  value: '',
+  isValid: false,
+};
+
 const CreateNoteForm = ({ saveNote }) => {
-  const [note, setNote] = useState({
-    title: '',
-    description: '',
-    id: Math.random().toString(),
-  });
+  const [title, dispatchTitle] = useReducer(inputReducer, initialObj);
+  const [description, dispatchDescription] = useReducer(
+    inputReducer,
+    initialObj
+  );
+  const [error, setError] = useState('');
 
   const submitHandler = (e) => {
     e.preventDefault();
-    saveNote(note);
+    if (title.isValid && description.isValid) {
+      saveNote({
+        title: title.value,
+        description: description.value,
+        id: Math.random().toString(),
+      });
+    } else {
+      setError('No text field can be empty in order to submit the note');
+    }
+    dispatchTitle();
+    dispatchDescription();
   };
 
   const inputChangeHandler = (e) => {
     const id = e.target.id;
     const val = e.target.value;
 
-    setNote((prev) => {
-      return { ...prev, [id]: val };
-    });
+    if (id === 'title') {
+      dispatchTitle({
+        type: 'INPUT_CHANGE',
+        value: val,
+      });
+    } else {
+      dispatchDescription({
+        type: 'INPUT_CHANGE',
+        value: val,
+      });
+    }
   };
 
   return (
@@ -39,6 +64,7 @@ const CreateNoteForm = ({ saveNote }) => {
         id='title'
         label='Note Title'
         variant='filled'
+        value={title.value}
         onChange={(e) => inputChangeHandler(e)}
       />
       <TextField
@@ -47,6 +73,7 @@ const CreateNoteForm = ({ saveNote }) => {
         id='description'
         label='Description'
         variant='filled'
+        value={description.value}
         onChange={(e) => inputChangeHandler(e)}
       />
       <Button

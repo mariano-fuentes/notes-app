@@ -2,7 +2,7 @@ import React from 'react';
 import NoteItem from './NoteItem';
 import Grid from '@mui/material/Grid';
 
-const NoteList = ({ notes }) => {
+const NoteList = ({ notes, deleteNote }) => {
   return (
     <ul>
       <Grid
@@ -23,6 +23,7 @@ const NoteList = ({ notes }) => {
                 title={note.title}
                 description={note.description}
                 id={note.id}
+                deleteNote={deleteNote}
               ></NoteItem>
             </Grid>
           );
