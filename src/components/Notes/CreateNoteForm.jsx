@@ -9,7 +9,7 @@ const inputStyle = {
 
 const initialObj = {
   value: '',
-  isValid: false,
+  isValid: null,
 };
 
 const CreateNoteForm = ({ saveNote }) => {
@@ -29,7 +29,7 @@ const CreateNoteForm = ({ saveNote }) => {
         id: Math.random().toString(),
       });
     } else {
-      setError('No text field can be empty in order to submit the note');
+      alert('No text field can be empty in order to submit the note');
     }
     dispatchTitle();
     dispatchDescription();
@@ -65,6 +65,8 @@ const CreateNoteForm = ({ saveNote }) => {
         label='Note Title'
         variant='filled'
         value={title.value}
+        error={title.isValid === false ? true : false}
+        helperText={title.isValid === false ? "Text field can't be empty" : ''}
         onChange={(e) => inputChangeHandler(e)}
       />
       <TextField
@@ -74,6 +76,10 @@ const CreateNoteForm = ({ saveNote }) => {
         label='Description'
         variant='filled'
         value={description.value}
+        error={description.isValid === false ? true : false}
+        helperText={
+          description.isValid === false ? "Text field can't be empty" : ''
+        }
         onChange={(e) => inputChangeHandler(e)}
       />
       <Button

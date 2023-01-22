@@ -8,7 +8,7 @@ const inputReducer = (state, action = {}) => {
     default:
       return {
         value: '',
-        isValid: false,
+        isValid: null,
       };
   }
 };
